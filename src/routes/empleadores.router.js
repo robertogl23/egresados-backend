@@ -65,7 +65,7 @@ router.get('/data/dashboard', async (req, res) => {
                 ['Arquitectura.',getDataEstadistica('Arquitectura.', data2)],
                 ],
                 estadistica3:[
-                    ['Task', 'Hours per Day'],
+                    ['x', 'Porcentaje del conocimiento de los egresados segun los empleadores'],
                     ['0% - 25%',getDataEstadistica('0% - 25%',data3)],
                     ['25% - 50%',getDataEstadistica('25% - 50%',data3)],
                     ['50% - 75%',getDataEstadistica('50% - 75%',data3)],
