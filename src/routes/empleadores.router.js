@@ -36,7 +36,7 @@ function isExist(word,el) {
     return false
 }
 
-router.get('/data', async (req, res) => {
+router.get('/data/dashboard', async (req, res) => {
     client.authorize(async (err,tokens) => {
         if(err){
             return res.json({
@@ -44,9 +44,35 @@ router.get('/data', async (req, res) => {
             })
             
         }else{
-            const data = await run(client,'A1:AM')
+            const data = await run(client,'G2:G')
+            const data2 = await run(client,'S2:S')
+            const data3 = await run(client, 'AK2:AK')
+            console.log (getDataEstadistica('Pública',data),('Ingeniería en Sistemas Computacionales.',data2),('75% - 100%',data3))
             return res.json({
-                preguntas:data
+                estadistica1:[
+                    ['Task', 'Hours per Day'],
+                    ['Pública',getDataEstadistica('Pública',data)],
+                    ['Privada',getDataEstadistica('Privada',data)],
+                ],
+                estadistica2:[
+                ['Task', 'Hours per Day'],
+                ['Ingeniería en Sistemas Computacionales.',getDataEstadistica('Ingeniería en Sistemas Computacionales.',data2)],
+                ['Ingeniería en Informática.',getDataEstadistica('Ingeniería en Informática.',data2)],
+                ['Ingeniería Ambiental.',getDataEstadistica('Ingeniería Ambiental.',data2)],
+                ['Ingeniería Electrónica.',getDataEstadistica('Ingeniería Electrónica.',data2)],
+                ['Licenciatura en Administración.',getDataEstadistica('Licenciatura en Administración.',data2)],
+                ['Ingeniería Biomédica.',getDataEstadistica('Ingeniería Biomédica.',data2)],
+                ['Arquitectura.',getDataEstadistica('Arquitectura.', data2)],
+                ],
+                estadistica3:[
+                    ['Task', 'Hours per Day'],
+                    ['0% - 25%',getDataEstadistica('0% - 25%',data3)],
+                    ['25% - 50%',getDataEstadistica('25% - 50%',data3)],
+                    ['50% - 75%',getDataEstadistica('50% - 75%',data3)],
+                    ['75% - 100%',getDataEstadistica('75% - 100%',data3)],
+
+                ]
+                
             })
         }
     
