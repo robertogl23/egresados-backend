@@ -88,6 +88,39 @@ router.get('/data', async (req, res) => {
 
   
 });
+router.get('/perfil', async (req, res) => {
+
+    client.authorize(async (err,tokens) => {
+        if(err){
+            return res.json({
+                err
+            })
+            
+        }else{
+            const data = await run(client,'Data!B5:B')
+            const data2 = await run(client,'C5:C')
+            const data3 = await run(client,'D5:D')
+            const data4 = await run(client,'E5:E')
+            const data5 = await run(client,'F5:F')
+            const data6 = await run(client,'G5:G')
+            const data7 = await run(client,'H5:H')
+            
+            return res.json({
+                correos:data.flat(),
+                nombres:data2,
+                matriculas:data3,
+                fechasNacimientos:data4,
+                curp:data5,
+                sexo:data6,
+                estadoCivil:data7,
+            })
+        }
+    
+    })
+    
+
+  
+});
 router.get('/data/dashboard', async (req, res) => {
 
     client.authorize(async (err,tokens) => {
