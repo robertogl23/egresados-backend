@@ -261,4 +261,34 @@ router.get('/descargar/data', async (req, res) => {
     }
   
 });
+router.get('/perfilegresados/', async (req, res) => {
+
+    client.authorize(async (err,tokens) => {
+        if(err){
+            return res.json({
+                err
+            })
+            
+        }else{
+            console.log(getRange(req.params))
+            const data = await run(client,'C5:C')
+            const data2=await run(client,'P5:P')
+            const data3=await run(client,'B5:B')
+            const data4 =await run(client,'D5:D')
+
+
+            return res.json({
+                data:data.flat(),
+                data2:data2.flat(),
+                data3:data3.flat(),
+                data4:data4.flat(),
+            })
+        }
+    
+    })
+
+  
+});
+
+
 module.exports = router;
