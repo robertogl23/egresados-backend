@@ -12,7 +12,13 @@ const getRange = require('../helpers/setRange');
 
 
 const getDataEstadistica = (filtro,data) => data.reduce((acm,el) => isExist(filtro,el[0]) ? acm += 1 :acm,0);
+const getGeneEgresados = (data) => data.reduce((acm,el) =>getGeneracion(el),0);
 
+const getGeneracion = (str) => {
+    console.log(`${str[0]}${str[1]}${str[2]}${str[3]}`)
+    return `${str[0]}${str[1]}${str[2]}${str[3]}`
+
+}
 
 const client = new google.auth.JWT(
     keys.client_email,
@@ -30,7 +36,7 @@ async function run(cl,r){
     });
 
     const opt = {
-        spreadsheetId:'1DdISuYgKI5oJIbEEwQ1I8AJHzjyUctmhYO2MPVLlXSI',
+        spreadsheetId:'104tWFzZAT3kIR8E9iYeg6mbKtC_uQbVlUB0Pe-pH4OA',
         range:r
     };
 
@@ -54,7 +60,7 @@ router.get('/preguntas', async (req, res) => {
             })
             
         }else{
-            const data = await run(client,'Data!A1:DX')
+            const data = await run(client,'A1:DX')
             return res.json({
                 preguntas:data[0]
             })
@@ -74,7 +80,7 @@ router.get('/data', async (req, res) => {
             })
             
         }else{
-            const data = await run(client,'Data!A1:GT')
+            const data = await run(client,'A1:GT')
             const data2 = await run(client,'A5:GT')
             
             return res.json({
@@ -84,8 +90,6 @@ router.get('/data', async (req, res) => {
         }
     
     })
-    
-
   
 });
 router.get('/perfil', async (req, res) => {
@@ -97,7 +101,7 @@ router.get('/perfil', async (req, res) => {
             })
             
         }else{
-            const data = await run(client,'Data!B5:B')
+            const data = await run(client,'B5:B')
             const data2 = await run(client,'C5:C')
             const data3 = await run(client,'D5:D')
             const data4 = await run(client,'E5:E')
@@ -130,9 +134,9 @@ router.get('/data/dashboard', async (req, res) => {
             })
             
         }else{
-            const data2 = await run(client,'R5:R')
-            const data3 = await run(client,'U5:U')
-            const data4 = await run(client,'DD5:DD')
+            const data2 = await run(client,'L2:L')
+            const data3 = await run(client,'P2:P')
+            const data4 = await run(client,'Q2:Q')
             console.log(data4)
             const fechasOrdenadas = Array.from(new Set(data4.flat())).sort()
             const titulacionDate = () => {
@@ -179,10 +183,10 @@ router.get('/respuesta/:p', async (req, res) => {
             })
             
         }else{
-            console.log(getRange(req.params))
-            const data = await run(client,getRange(req.params))
+            console.log(getRange(req.params).trim())
+            const data = await run(client,getRange(req.params).trim())
             return res.json({
-                data:data.flat()
+                data:data
             })
         }
     
@@ -271,10 +275,11 @@ router.get('/perfilegresados/', async (req, res) => {
             
         }else{
             console.log(getRange(req.params))
-            const data = await run(client,'C5:C')
-            const data2=await run(client,'P5:P')
-            const data3=await run(client,'B5:B')
-            const data4 =await run(client,'D5:D')
+            const data = await run(client,'C2:C')
+            const data2=await run(client,'P2:P')
+            const data3=await run(client,'B2:B')
+            const data4 =await run(client,'D2:D')
+
 
 
             return res.json({
@@ -282,6 +287,39 @@ router.get('/perfilegresados/', async (req, res) => {
                 data2:data2.flat(),
                 data3:data3.flat(),
                 data4:data4.flat(),
+            })
+        }
+    
+    })
+
+  
+});
+router.get('/egresados-main/', async (req, res) => {
+    let str = "hola"
+    console.log(getGeneracion(str))
+       
+
+    client.authorize(async (err,tokens) => {
+        if(err){
+            return res.json({
+                err
+            })
+            
+        }else{
+            console.log(getRange(req.params))
+            const data = await run(client,'C2:C')
+            const data2=await run(client,'A1:GT1')
+            const titulados=await run(client,'P2:P')
+            const data3=await run(client,'CJ2:CJ')
+
+            return res.json({
+                nombres:data.flat(),
+                preguntas:data2.flat(),
+                numeroEgresados:data.flat().length,
+                titulados: getDataEstadistica("Si",titulados),
+                data3: getDataEstadistica("100%",data3),
+               // matriculas:getGeneEgresados(matriculas)
+
             })
         }
     
