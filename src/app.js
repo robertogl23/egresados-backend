@@ -1,3 +1,4 @@
+require("./config")
 const express = require('express');
 const path = require('path')
 const cors = require('cors')
@@ -24,6 +25,6 @@ app.use(express.static(path.join(__dirname,'../build')));
 /** */
 /** */
 /** */
-app.listen(PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log(`http://localhost:${PORT}`);
 })
