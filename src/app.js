@@ -1,5 +1,6 @@
 require("./config")
 const express = require('express');
+const morgan = require('morgan')
 const path = require('path')
 const cors = require('cors')
 const hbs = require('hbs');
@@ -14,6 +15,7 @@ const empledoresRouter = require('./routes/empleadores.router')
  * @author Roberto 
  * 
  **/
+app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static(path.join(__dirname,'../build')));
 //// Express HBS engine

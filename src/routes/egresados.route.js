@@ -171,8 +171,6 @@ router.get('/data/dashboard', async (req, res) => {
                 fechasOrdenadas.map(e => data.push([e,getDataEstadistica(e,data4)]))
                 return data
             } 
-
-
             console.log(titulacionDate())
             return res.json({
                 carreras:[
