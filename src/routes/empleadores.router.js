@@ -147,4 +147,24 @@ router.get('/descargar/data', async (req, res) => {
     }
   
 });
+router.get('/respuestaemp/:p', async (req, res) => {
+
+    client.authorize(async (err,tokens) => {
+        if(err){
+            return res.json({
+                err
+            })
+            
+        }else{
+            console.log(getRange(req.params).trim())
+            const data = await run(client,getRange(req.params).trim())
+            return res.json({
+                data:data
+            })
+        }
+    
+    })
+
+  
+});
 module.exports = router;
