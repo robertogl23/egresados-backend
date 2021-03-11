@@ -422,6 +422,9 @@ router.get('/respuesta/:p', async (req, res) => {
 router.get('/datos-egresados/:id', async (req, res) => {
     const correos = await run(client,'B2:B')
     const nombre = await run(client,'C2:C')
+    const tel = await run(client,'J2:J')
+    const matricula = await run(client,'D2:D')
+    const carrera = await run(client,'L2:L')
     client.authorize(async (err,tokens) => {
         if(err){
             return res.json({
@@ -431,7 +434,10 @@ router.get('/datos-egresados/:id', async (req, res) => {
         }else{
             return res.json({
                 correos:correos[req.params.id],
-                nombre
+                nombre:nombre[req.params.id],
+                tel:tel[req.params.id],
+                matricula:matricula[req.params.id],
+                carrera:carrera[req.params.id],
 
             })
         }
