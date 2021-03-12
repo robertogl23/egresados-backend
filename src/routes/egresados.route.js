@@ -15,7 +15,7 @@ const getDataEstadistica = (filtro, data) => data.reduce((acm, el) => isExist(fi
 const getGeneEgresados = (data) => data.reduce((acm, el) => getGeneracion(el), 0);
 
 const getGeneracion = (str) => {
-    console.log(`${str[0]}${str[1]}${str[2]}${str[3]}`)
+   
     return `${str[0]}${str[1]}${str[2]}${str[3]}`
 
 }
@@ -147,7 +147,7 @@ router.get('/data/dashboard', async (req, res) => {
                 fechasOrdenadas.map(e => data.push([e, getDataEstadistica(e, data4)]))
                 return data
             }
-            console.log(titulacionDate())
+           
             return res.json({
                 carreras: [
                     ["Name", "Carreras Egresados"],
@@ -502,7 +502,7 @@ router.get('/respuesta/:p', async (req, res) => {
             })
 
         } else {
-            console.log(getRange(req.params).trim())
+            
             const data = await run(client, getRange(req.params).trim())
             return res.json({
                 data: data
@@ -622,7 +622,7 @@ router.get('/perfilegresados/', async (req, res) => {
             })
 
         } else {
-            console.log(getRange(req.params))
+            
             const data = await run(client, 'C2:C')
             const data2 = await run(client, 'P2:P')
             const data3 = await run(client, 'B2:B')
@@ -653,7 +653,7 @@ router.get('/egresados-main/', async (req, res) => {
             })
 
         } else {
-            console.log(getRange(req.params))
+           
             const data = await run(client, 'C2:C')
             const data2 = await run(client, 'A1:GT1')
             const titulados = await run(client, 'P2:P')
