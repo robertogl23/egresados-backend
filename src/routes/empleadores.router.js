@@ -167,4 +167,30 @@ router.get('/respuestaemp/:p', async (req, res) => {
 
   
 });
+router.get('/datos-egresados/:id', async (req, res) => {
+    const correos = await run(client,'B2:B')
+    const nombre = await run(client,'E2:E')
+    const tel = await run(client,'F2:F')
+    const carrera = await run(client,'S2:S')
+    client.authorize(async (err,tokens) => {
+        if(err){
+            return res.json({
+                err
+            })
+            
+        }else{
+            return res.json({
+                correos:correos[req.params.id],
+                nombre:nombre[req.params.id],
+                tel:tel[req.params.id],
+                matricula:matricula[req.params.id],
+                carrera:carrera[req.params.id],
+
+            })
+        }
+    
+    })
+
+  
+});
 module.exports = router;

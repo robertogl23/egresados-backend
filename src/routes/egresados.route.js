@@ -164,15 +164,12 @@ router.get('/data/dashboard', async (req, res) => {
             const data34 = await run(client,'BS2:BS')
             const data35 = await run(client,'BY2:BY')
             const data4 = await run(client,'Q2:Q')
-            console.log(data4)
             const fechasOrdenadas = Array.from(new Set(data4.flat())).sort()
             const titulacionDate = () => {
                 let data = [ ["x", "Titulados"]]
                 fechasOrdenadas.map(e => data.push([e,getDataEstadistica(e,data4)]))
                 return data
             } 
-
-
             console.log(titulacionDate())
             return res.json({
                 carreras:[
@@ -422,6 +419,33 @@ router.get('/respuesta/:p', async (req, res) => {
 
   
 });
+router.get('/datos-egresados/:id', async (req, res) => {
+    const correos = await run(client,'B2:B')
+    const nombre = await run(client,'C2:C')
+    const tel = await run(client,'J2:J')
+    const matricula = await run(client,'D2:D')
+    const carrera = await run(client,'L2:L')
+    client.authorize(async (err,tokens) => {
+        if(err){
+            return res.json({
+                err
+            })
+            
+        }else{
+            return res.json({
+                correos:correos[req.params.id],
+                nombre:nombre[req.params.id],
+                tel:tel[req.params.id],
+                matricula:matricula[req.params.id],
+                carrera:carrera[req.params.id],
+
+            })
+        }
+    
+    })
+
+  
+});
 router.get('/data/calidad-docentes', async (req, res) => {
 
     return leerCsv("egresados",(data) => {
@@ -524,7 +548,6 @@ router.get('/perfilegresados/', async (req, res) => {
 });
 router.get('/egresados-main/', async (req, res) => {
     let str = "hola"
-    console.log(getGeneracion(str))
        
 
     client.authorize(async (err,tokens) => {
