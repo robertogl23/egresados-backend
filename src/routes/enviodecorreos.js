@@ -2,7 +2,8 @@ var nodemailer = require("nodemailer");
 const express =require('express');
 const router = express.Router();
 
-router.get("/send-email/:correo", (req, res) => {
+router.get("/send-email/:correo/:asunto/:des", (req, res) => {
+    console.log(req.params)
     var transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         post: 465 ,
@@ -15,8 +16,8 @@ router.get("/send-email/:correo", (req, res) => {
     var mailOptions = {
         from: "Remitente",
         to: req.params.correo,
-        subject: "Correo de prueba desde NodeMailer",
-        text: "Hola, este es un correo enviado desde NodeMailer"
+        subject: req.params.asunto,
+        text: req.params.des
     }
     transporter.sendMail(mailOptions, (error, info) =>{
         if(error){
